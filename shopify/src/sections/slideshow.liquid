@@ -1,0 +1,51 @@
+<div class="page-width">
+  <div class="slideshow">
+    {% for block in section.blocks %}
+      <div class="slide slug__content-center slug__content-middle"
+           style="background-image: url({{ block.settings.background_image | img_url: '1024x' }});">
+
+          <a href="{{ block.settings.link }}" class="btn slug__button" style="width: auto;">
+              {{ block.settings.message }}
+          </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% javascript %}
+  $('.slideshow').slick({
+    adaptiveHeight: true,
+    arrows: false,
+    autoplay: true
+  });
+{% endjavascript %}
+
+{% schema %}
+  {
+    "name": "Slideshow",
+    "settings": [],
+    "blocks": [
+      {
+        "name": "Slide",
+        "type": "slide",
+        "settings": [
+          {
+            "label": "Link",
+            "id": "link",
+            "type": "url"
+          },
+          {
+            "label": "Message",
+            "id": "message",
+            "type": "text"
+          },
+          {
+            "label": "Background Image",
+            "id": "background_image",
+            "type": "image_picker"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

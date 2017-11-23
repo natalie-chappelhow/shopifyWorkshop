@@ -1,0 +1,12 @@
+.btn {
+  background: white;
+  border: 5px solid $color-primary;
+  color: black;
+  padding: 1em 2em;
+  transition: .8s ease-in-out;
+
+  &:hover {
+    background: rgba($color-primary, 0);
+    color: white;
+  }
+}

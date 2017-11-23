@@ -1,0 +1,267 @@
+{% if section.blocks.size > 0 %}
+  <div class="grid">
+
+    {% assign counter = 0 %}
+    {% for block in section.blocks %}
+
+      {%- comment %}
+      	Assign block_width and block_push classes for grid alignment
+      {% endcomment -%}
+      {% assign counter = counter | plus: 1 %}
+      {% if section.blocks.size == 1 %}
+        {% assign block_width = 'one-whole' %}
+        {% assign block_push = '' %}
+      {% else %}
+        {% if counter == 1 %}
+          {% assign block_width = 'two-thirds' %}
+          {% assign block_push = '' %}
+        {% elsif counter == 2 %}
+          {% assign block_width = 'one-third' %}
+          {% assign block_push = '' %}
+        {% else %}
+          {% assign block_width = 'large-up--five-sixths medium-down--one-whole' %}
+          {% assign block_push = ' large-up--push-one-twelfth' %}
+        {% endif %}
+      {% endif %}
+
+      {%- unless block.settings.background_image == blank -%}
+        {% assign background_image = block.settings.background_image | img_url: '1024x' %}
+      {%- elsif block.type == 'product' -%}
+        {% assign product = all_products[block.settings.product] %}
+        {% assign background_image = product.featured_image | img_url: '1024x' %}
+      {%- elsif block.type == 'collect' -%}
+        {% assign collection = collections[block.settings.product] %}
+        {% assign background_image = collection.featured_image | img_url: '1024x' %}
+      {%- endunless -%}
+
+      {%- comment %}
+       Assign Content Variables
+      {% endcomment -%}
+      {% assign content_hpos = 'slug__content-' | append: block.settings.content_hpos %}
+      {% assign content_vpos = 'slug__content-' | append: block.settings.content_vpos %}
+
+      <div class="grid__item promo__slug text-center {{ block_width }}{{ block_push }} {{ content_hpos }} {{ content_vpos }}"
+           style="background-image: url({{ background_image }});"
+           >
+
+           <div class="slug__content-wrapper"
+                style="height: {{ block.settings.content_height }}%;
+                       width: {{ block.settings.content_width }}%;">
+
+             {% unless block.settings.heading == blank %}
+               <h2>{{ block.settings.heading }}</h2>
+             {% endunless %}
+
+             {% unless block.settings.description == blank %}
+               <p>{{ block.settings.description }}</p>
+             {% endunless %}
+
+             {% if block.type == 'product' %}
+               {% assign product = all_products[block.settings.product] %}
+               <a href="{{ product.url }}" class="btn slug__button">
+                 {%- unless block.settings.button_text == blank -%}
+                   {{ block.settings.button_text }}
+                 {%- else -%}
+                   {{ product.title }}
+                 {%- endunless -%}
+               </a>
+             {% endif %}
+
+             {% if block.type == 'collection' %}
+               {% assign collection = collections[block.settings.collection] %}
+               <a href="{{ collection.url }}" class="btn slug__button">
+                 {%- unless block.settings.button_text == blank -%}
+                   {{ block.settings.button_text }}
+                 {%- else -%}
+                   {{ collection.title }}
+                 {%- endunless -%}
+               </a>
+             {% endif %}
+           </div>
+
+      </div>
+    {% endfor %}
+
+  </div>{%- comment %}END .grid{% endcomment -%}
+{% endif %}
+{% schema %}
+  {
+    "name": "Promotional Slugs",
+    "settings": [],
+    "max_blocks": 3,
+    "blocks": [
+      {
+        "name": "Product",
+        "type": "product",
+        "settings": [
+          {
+            "label": "Featured Product",
+            "id": "product",
+            "type": "product"
+          },
+          {
+            "label": "Background Image",
+            "id": "background_image",
+            "type": "image_picker"
+          },
+          {
+            "label": "Content Position - Horizontal",
+            "id": "content_hpos",
+            "type": "select",
+            "default": "left",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Centre",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          },
+          {
+            "label": "Content Position - Vertical",
+            "id": "content_vpos",
+            "type": "select",
+            "default": "top",
+            "options": [
+              {
+                "label": "Top",
+                "value": "top"
+              },
+              {
+                "label": "Middle",
+                "value": "middle"
+              },
+              {
+                "label": "Bottom",
+                "value": "bottom"
+              }
+            ]
+          },
+          {
+            "label": "Content Height",
+            "id": "content_height",
+            "type": "range",
+            "default": 100,
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%"
+          },
+          {
+            "label": "Content Width",
+            "id": "content_width",
+            "type": "range",
+            "default": 50,
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%"
+          },
+          {
+            "label": "Heading",
+            "id": "heading",
+            "type": "text"
+          },
+          {
+            "label": "Description",
+            "id": "description",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "name": "Featured Collection",
+        "type": "collection",
+        "settings": [
+          {
+            "label": "Featured Collection",
+            "id": "collection",
+            "type": "collection"
+          },
+          {
+            "label": "Background Image",
+            "id": "background_image",
+            "type": "image_picker"
+          },
+          {
+            "label": "Content Position - Horizontal",
+            "id": "content_hpos",
+            "type": "select",
+            "default": "left",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Centre",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          },
+          {
+            "label": "Content Position - Vertical",
+            "id": "content_vpos",
+            "type": "select",
+            "default": "top",
+            "options": [
+              {
+                "label": "Top",
+                "value": "top"
+              },
+              {
+                "label": "Middle",
+                "value": "middle"
+              },
+              {
+                "label": "Bottom",
+                "value": "bottom"
+              }
+            ]
+          },
+          {
+            "label": "Content Height",
+            "id": "content_height",
+            "type": "range",
+            "default": 100,
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%"
+          },
+          {
+            "label": "Content Width",
+            "id": "content_width",
+            "type": "range",
+            "default": 50,
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%"
+          },
+          {
+            "label": "Heading",
+            "id": "heading",
+            "type": "text"
+          },
+          {
+            "label": "Description",
+            "id": "description",
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

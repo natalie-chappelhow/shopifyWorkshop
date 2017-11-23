@@ -1,0 +1,44 @@
+.promo__slug {
+  background: darken($color-primary, 5%) center;
+
+  background-size: cover;
+
+  display: flex;
+
+  height: 600px;
+  padding: 0;
+  position: relative;
+}
+
+.slug__content-wrapper {
+  background: rgba($color-primary, 0.5);
+  padding: 2em;
+}
+
+.slug__content-left {
+  justify-content: flex-start;
+}
+
+.slug__content-center {
+  justify-content: center;
+}
+
+.slug__content-right {
+  justify-content: flex-end;
+}
+
+.slug__content-top {
+  align-items: flex-start;
+}
+
+.slug__content-middle {
+  align-items: center;
+}
+
+.slug__content-bottom {
+  align-items: flex-end;
+}
+
+.slug__button {
+  width: 100%;
+}
